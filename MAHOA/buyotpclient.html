@@ -1,0 +1,146 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var tableListSMS = $('#datatables-list-sms').DataTable({
+            "ajax": {
+                "url": "/ajaxs/ajaxtables/list_get_otp.php",
+                "dataSrc": "data"
+            },
+            "columns": [{
+                "data": "serveive"
+            }, {
+                "data": "number"
+            }, {
+                "data": "amount"
+            }, {
+                "data": "timeremaining"
+            }, {
+                "data": "action"
+            }, {
+                "data": "sms_code"
+            }, {
+                "data": "sms_content"
+            }, ],
+            "ordering": false,
+            "lengthMenu": [5, 10, 25, 50],
+            "pageLength": 5,
+            "searching": false,
+            "drawCallback": function(settings) {
+                var api = this.api();
+                var totalPages = api.page.info().pages;
+                if (totalPages <= 1) {
+                    $('#datatables-list-sms_paginate').hide();
+                } else {
+                    $('#datatables-list-sms_paginate').show();
+                }
+            }
+        });
+        setInterval(function() {
+            tableListSMS.ajax.reload(null, false);
+        }, 5000);
+
+        function copyToClipboard(text) {
+            var tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            toastr.success('Copy thành công: ' + text, 'Copy thành công', {
+                timeOut: 3000
+            });
+        }
+        var tableListBuyOTP = $('#datatables-column-search-text-inputs').DataTable({
+            "ajax": {
+                "url": "/ajaxs/ajaxtables/list_buy_otp.php",
+                "dataSrc": "data"
+            },
+            "columns": [{
+                "data": "name"
+            }, {
+                "data": "amount"
+            }, {
+                "data": "action"
+            }, ],
+            "responsive": true,
+            "ordering": false,
+            "lengthMenu": [5, 10, 25, 50],
+            "pageLength": 5,
+            "searching": false
+        });
+
+        $('#datatables-column-search-text-inputs tbody').on('click', '.buy-button', function() {
+            var rowId = $(this).data('id');
+            var selectedValues1 = $('#locmang').val();
+            var selectedValues2 = $('#dausolay').val();
+            var selectedValues3 = $('#dausobo').val();
+
+            var selectedString1 = selectedValues1 && selectedValues1.length > 0 ? selectedValues1.join('|') : null;
+            var selectedString2 = selectedValues2 && selectedValues2.length > 0 ? selectedValues2.join('|') : null;
+            var selectedString3 = selectedValues3 && selectedValues3.length > 0 ? selectedValues3.join('|') : null;
+
+            var requestData = {
+                id: rowId,
+                locmang: selectedString1,
+                dausolay: selectedString2,
+                dausobo: selectedString3
+            };
+
+            $.ajax({
+                url: '/ajaxs/ajaxclient/buy_otp.php',
+                method: "POST",
+                dataType: "JSON",
+                data: requestData,
+                success: function(response) {
+                    if (response.status == 'success') {
+                        toastr.success(response.msg, 'Thành công', {
+                            timeOut: 5000
+                        });
+                    } else {
+                        toastr.error(response.msg, 'Thất bại', {
+                            timeOut: 5000
+                        });
+                    }
+                },
+                error: function(error) {
+                    toastr.error('Đã có lỗi xảy ra !', 'Lỗi', {
+                        timeOut: 5000
+                    });
+                }
+            });
+        });
+
+        $('#datatables-column-search-text-inputs tfoot th').each(function(index) {
+            var title = $(this).text();
+            if (index === 0) {
+                $(this).html('<input type="text" class="form-control" placeholder="Search ' + title + '" />');
+            } else {
+                $(this).html('');
+            }
+        });
+
+        tableListBuyOTP.columns(0).every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change clear', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+
+        $("select[name=\"validation-select2-multi\"]").select2({
+            placeholder: "Chọn option",
+        }).change(function() {
+            $(this).valid();
+        });
+
+        $("input[name=\"validation-bs-tagsinput\"]").on("itemAdded itemRemoved", function() {
+            $(this).valid();
+        });
+    });
+
+    function imgError(element) {
+        $(element).attr('src', 'https://viotp.com/content/images/iconapp/blank.ico')
+    }
+</script>

@@ -1,0 +1,4 @@
+Pause = Đã huỷ
+Success = Thành công
+Active = Đang chạy
+Refund = Hoàn tiền

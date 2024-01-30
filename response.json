@@ -1,0 +1,16 @@
+{
+    "status": true,
+    "message": "Mua th\u00e0nh c\u00f4ng",
+    "data": {
+        "idfb": "100037427044039",
+        "server_order": 5,
+        "amount": 100,
+        "start": 1006046,
+        "code_order": "FbSubVip_JCP1G2HB3YJ1",
+        "update": {
+            "result": true,
+            "coin_old": 314,
+            "coin_new": 144
+        }
+    }
+}

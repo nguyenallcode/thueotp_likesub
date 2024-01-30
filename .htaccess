@@ -1,0 +1,40 @@
+ErrorDocument 404 /404.html
+RewriteEngine On
+
+
+# client 
+RewriteRule ^otp/order$ resoucre/client/buyotp.php [L]
+RewriteRule ^otp/history$ resoucre/client/history_buy.php [L]
+RewriteRule ^api$ resoucre/client/document_api.php [L]
+RewriteRule ^profile$ resoucre/client/profile.php [L]
+RewriteRule ^sign-in$ resoucre/client/sign_in.php [L]
+RewriteRule ^sign-up$ resoucre/client/sign_up.php [L]
+RewriteRule ^sign-out$ resoucre/client/sign_out.php [L]
+
+
+#client like sub
+RewriteRule ^facebook/sub-vip$ resoucre/client/likesub/facebook/order.php [L]
+
+
+
+
+
+
+RewriteRule ^api/getinfo$ documentapi/info_users.php [L]
+RewriteRule ^api/getservice$ documentapi/get_list_service.php [L]
+RewriteRule ^api/buyservice$ documentapi/buy.php [L]
+RewriteRule ^api/getotp$ documentapi/get_otp.php [L]
+
+
+
+
+
+#Admin
+
+RewriteRule ^DashboardAdmin$ resoucre/admin/index.php [L]
+RewriteRule ^Admin/DonHang$ resoucre/admin/DonHang.php [L]
+RewriteRule ^Admin/User$ resoucre/admin/User.php [L]
+RewriteRule ^Admin/EditUser/([A-Za-z0-9-]+) resoucre/admin/EditUser.php?id=$1 [L]
+RewriteRule ^Admin/CauHinhNapTien$ resoucre/admin/CauHinhNapTien.php [L]
+RewriteRule ^Admin/CaiDat$ resoucre/admin/CaiDat.php [L]
+RewriteRule ^Admin/CaiDatThongBao$ resoucre/admin/CaiDatThongBao.php [L]
