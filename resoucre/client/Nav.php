@@ -37,23 +37,20 @@
 						</a>
 					</li>
 					<li class="sidebar-header">
-						Thuê số
+						Social Network
 					</li>
-					<li class="sidebar-item">
-    <a data-bs-target="#documentation" data-bs-toggle="collapse" class="sidebar-link collapsed">
-	<img src="https://subgiare.vn/jampack/dist/img/svg/facebook.svg" alt="" style="width: 24px;height: 24px;"> <span class="align-middle">Dịch vụ Facebook</span>
-    </a>
-    <ul id="documentation" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-        <li class="sidebar-item">
-            <a data-bs-target="#subDocumentation" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                <span class="align-middle ml-auto">Facebook Buff</span>
-            </a>
-            <ul id="subDocumentation" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#documentation">
-                <li class="sidebar-item"><a class="sidebar-link" href="/facebook/sub-vip" style="margin-left: 20px;">Tăng follow (vip)</a></li>
-            </ul>
-        </li>
-    </ul>
-</li>
+			<?php foreach($NguyenAll->get_list("SELECT * FROM `category_social` WHERE `display` = 'SHOW' ORDER BY uutien DESC") as $category) { ?>
+				<li class="sidebar-item">
+						<a data-bs-target="#side_social<?=$category['id'];?>" data-bs-toggle="collapse" class="sidebar-link">
+						<img style="width:24px; height:24px;" src="<?=$category['img'];?>" alt=""> <span class="align-middle"><?=$category['title'];?></span>
+						</a>
+		<?php foreach($NguyenAll->get_list("SELECT * FROM `groups_social` WHERE `display` = 'SHOW' AND `category` = '".$category['id']."'  ORDER BY uutien DESC") as $group) { ?>
+		<ul id="side_social<?=$category['id'];?>" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+			<li class="sidebar-item"><a class='sidebar-link' href='/service/<?=$group['uid_title'];?>'><?=$group['title'];?></a></li>
+		</ul>
+		<?php }?>
+					</li>
+<?php }?>
 
 					<li class="sidebar-header">
 						Thuê số

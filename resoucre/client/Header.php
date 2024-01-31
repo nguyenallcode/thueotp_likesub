@@ -15,6 +15,9 @@
 			opacity: 0;
 		}
 	</style>
+	
 	<link rel="stylesheet" href="/theme/css/modern.css?v=<?=rand(1,99999999);?>">
-	<script src="/theme/js/settings.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="/theme/js/settings.js"></script>
+
 </head>

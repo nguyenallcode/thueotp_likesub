@@ -13,7 +13,7 @@ RewriteRule ^sign-out$ resoucre/client/sign_out.php [L]
 
 
 #client like sub
-RewriteRule ^facebook/sub-vip$ resoucre/client/likesub/facebook/order.php [L]
+RewriteRule ^service/([A-Za-z0-9-]+) resoucre/client/likesub/facebook/order.php?uid_title=$1 [L]
 
 
 
