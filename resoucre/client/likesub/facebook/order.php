@@ -3,13 +3,13 @@
     require_once("../../../../config/function.php");
     $check = $NguyenAll->get_row("SELECT * FROM `groups_social` WHERE `uid_title` = '".check_string($_GET['uid_title'])."'");
     $title = $check['title'];
+    require_once("../../../../resoucre/client/Header.php");
     if (isset($_GET['uid_title'])) {
         if (!$check) {
             header("Location: /"); 
             exit(); 
         }
     } 
-    require_once("../../../../resoucre/client/Header.php");
     require_once("../../../../resoucre/client/Nav.php");
     CheckLogin();
 
@@ -139,38 +139,25 @@
     </div>
 
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
 $("#Submit").on("click", function() {
 $('#Submit').html('<i class="fa fa-spinner fa-spin"></i> ĐANG XỬ LÝ').prop('disabled',
     true);
-    $.ajax({
-                url: '/service/ajaxs/order_social.php',
-                method: "POST",
-                dataType: "JSON",
-                data: {
+$.ajax({
+    url: "<?=BASE_URL("service/ajaxs/order_social.php");?>",
+    method: "POST",
+    data: {
         type: 'Order',
         id_url: $("#id_url").val(),
         server: $('input[name="server-type"]:checked').val(),
         amount: $("#amount").val(),
         ghichu: $("#ghichu").val()
     },
-                success: function(response) {
-                    if (response.status == 'success') {
-                        toastr.success(response.msg, 'Thành công', {
-                            timeOut: 5000
-                        });
-                    } else {
-                        toastr.error(response.msg, 'Thất bại', {
-                            timeOut: 5000
-                        });
-                    }
-                },
-                error: function(error) {
-                    toastr.error('Đã có lỗi xảy ra !', 'Lỗi', {
-                        timeOut: 5000
-                    });
-                }
-            });
+    success: function(response) {
+        $("#thongbao").html(response);
+        $('#Submit').html(
+                '<b class="text-center"><img src="https://subgiare.vn/assets/images/svg/buy.svg" alt="" width="25" height="25"> Thanh toán</b>')
+            .prop('disabled', false);
+    }
 });
 });
 </script>
